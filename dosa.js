@@ -1,17 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const resizeText = (element, maxFontSize = 1.2) => {
-        let fontSize = maxFontSize;
-        element.style.fontSize = `${fontSize}rem`;
-        
-        // Adjust the font size until the text fits within the element's container height
-        while (element.scrollHeight > element.parentNode.clientHeight && fontSize > 0.8) {
-            fontSize -= 0.1;
-            element.style.fontSize = `${fontSize}rem`;
-        }
+
+document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const feedback = document.getElementById('contact').value;
+
+    const feedbackData = {
+        name: name,
+        email: email,
+        contact: contact
     };
 
-    // Apply the resizeText function to each element with the class "resizable-text"
-    document.querySelectorAll(".resizable-text").forEach((element) => {
-        resizeText(element);
-    });
+    // Store the feedback in localStorage
+    let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+    feedbacks.push(feedbackData);
+    localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+    alert('Thank you for your feedback!');
+    document.getElementById('feedbackForm').reset();
 });
